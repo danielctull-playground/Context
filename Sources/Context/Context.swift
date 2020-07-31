@@ -5,10 +5,18 @@ extension Binding {
     public var context: Context<Value> { Context(source: self) }
 }
 
-final class Classify<Value> {
-    let value: Value
-    init(value: Value) {
-        self.value = value
+extension UndoManager {
+
+    @objc final class UndoFunction: NSObject {
+        let undoFunction: () -> Void
+        init(undoFunction: @escaping () -> Void) {
+            self.undoFunction = undoFunction
+        }
+    }
+
+    func registerUndo<Value>(_ binding: Binding<Value>, _ undo: @escaping (Binding<Value>) -> Void) {
+        let target = UndoFunction(undoFunction: { undo(binding) })
+        self.registerUndo(withTarget: target, handler: { $0.undoFunction() })
     }
 }
 
@@ -40,9 +48,7 @@ public struct Context<Value>: DynamicProperty {
     private func setValue(_ newValue: Value) {
         let oldValue = current
         current = newValue
-        undoManager.registerUndo(withTarget: Classify(value: $current)) {
-            $0.value.wrappedValue = oldValue
-        }
+        undoManager.registerUndo($current) { $0.wrappedValue = oldValue }
     }
 
     private var binding: Binding<Value> {
