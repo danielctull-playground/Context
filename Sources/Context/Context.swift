@@ -2,20 +2,22 @@
 import SwiftUI
 
 extension Binding {
-    public var undoer: Undoer<Value> { Undoer(source: self) }
+    public var context: Context<Value> { Context(source: self) }
 }
 
 @propertyWrapper
 @dynamicMemberLookup
-public struct Undoer<Value>: DynamicProperty {
+public struct Context<Value>: DynamicProperty {
 
+    @Binding private var source: Value
     @State private var past: [Value]
     @State private var future: [Value]
-    @Binding private var current: Value
+    @State private var current: Value
 
     fileprivate init(source: Binding<Value>) {
+        self._source = source
+        self._current = State(wrappedValue: source.wrappedValue)
         self._past = State(wrappedValue: [])
-        self._current = source
         self._future = State(wrappedValue: [])
     }
 
@@ -34,13 +36,23 @@ public struct Undoer<Value>: DynamicProperty {
         binding[dynamicMember: keyPath]
     }
 
-    public var binding: Binding<Value> {
+    private var binding: Binding<Value> {
         Binding(get: { current },
                 set: { newValue in
                     past.append(current)
                     future = []
                     current = newValue
                 })
+    }
+
+    public func save() {
+        source = current
+    }
+
+    public func rollback() {
+        current = source
+        future = []
+        past = []
     }
 
     public var canUndo: Bool { !past.isEmpty }
@@ -56,4 +68,8 @@ public struct Undoer<Value>: DynamicProperty {
         past.append(current)
         current = next
     }
+}
+
+extension Context where Value: Equatable {
+    public var hasChanges: Bool { source != current }
 }

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Undoer",
+    name: "Context",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
@@ -11,9 +11,9 @@ let package = Package(
         .watchOS(.v6),
     ],
     products: [
-        .library(name: "Undoer", targets: ["Undoer"]),
+        .library(name: "Context", targets: ["Context"]),
     ],
     targets: [
-        .target(name: "Undoer"),
+        .target(name: "Context"),
     ]
 )

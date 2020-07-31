@@ -10,7 +10,7 @@
 		24DA56B124D4128C00BD94D6 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DA56B024D4128C00BD94D6 /* ExampleApp.swift */; };
 		24DA56B324D4128C00BD94D6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DA56B224D4128C00BD94D6 /* ContentView.swift */; };
 		24DA56B524D4128F00BD94D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24DA56B424D4128F00BD94D6 /* Assets.xcassets */; };
-		24DA56C424D4141900BD94D6 /* Undoer in Frameworks */ = {isa = PBXBuildFile; productRef = 24DA56C324D4141900BD94D6 /* Undoer */; };
+		24DA56C824D4187800BD94D6 /* Context in Frameworks */ = {isa = PBXBuildFile; productRef = 24DA56C724D4187800BD94D6 /* Context */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24DA56C424D4141900BD94D6 /* Undoer in Frameworks */,
+				24DA56C824D4187800BD94D6 /* Context in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				24DA56C324D4141900BD94D6 /* Undoer */,
+				24DA56C724D4187800BD94D6 /* Context */,
 			);
 			productName = Example;
 			productReference = 24DA56AD24D4128C00BD94D6 /* Example.app */;
@@ -331,9 +331,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		24DA56C324D4141900BD94D6 /* Undoer */ = {
+		24DA56C724D4187800BD94D6 /* Context */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Undoer;
+			productName = Context;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

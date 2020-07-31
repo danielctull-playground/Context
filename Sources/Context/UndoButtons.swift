@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-extension Undoer {
+extension Context {
 
     public var undoButton: some View {
         Button(action: undo, label: {
