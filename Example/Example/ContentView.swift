@@ -24,9 +24,11 @@ struct UserEditor: View {
         VStack {
             TextField("First Name", text: $user.firstName)
             TextField("Last Name", text: $user.lastName)
-            Divider()
-            Button("Undo", action: $user.undo).disabled(!$user.canUndo)
-            Button("Redo", action: $user.redo).disabled(!$user.canRedo)
+            HStack {
+                $user.undoButton
+                $user.redoButton
+            }
         }
+        .padding()
     }
 }
