@@ -5,20 +5,25 @@ extension Binding {
     public var context: Context<Value> { Context(source: self) }
 }
 
+final class Classify<Value> {
+    let value: Value
+    init(value: Value) {
+        self.value = value
+    }
+}
+
 @propertyWrapper
 @dynamicMemberLookup
 public struct Context<Value>: DynamicProperty {
 
     @Binding private var source: Value
-    @State private var past: [Value]
-    @State private var future: [Value]
     @State private var current: Value
+    private let undoManager: UndoManager
 
     fileprivate init(source: Binding<Value>) {
         self._source = source
         self._current = State(wrappedValue: source.wrappedValue)
-        self._past = State(wrappedValue: [])
-        self._future = State(wrappedValue: [])
+        self.undoManager = UndoManager()
     }
 
     public var wrappedValue: Value {
@@ -32,10 +37,12 @@ public struct Context<Value>: DynamicProperty {
         binding[dynamicMember: keyPath]
     }
 
-    private func setValue(_ value: Value) {
-        past.append(current)
-        future = []
-        current = value
+    private func setValue(_ newValue: Value) {
+        let oldValue = current
+        current = newValue
+        undoManager.registerUndo(withTarget: Classify(value: $current)) {
+            $0.value.wrappedValue = oldValue
+        }
     }
 
     private var binding: Binding<Value> {
@@ -58,8 +65,7 @@ extension Context {
 
     public func rollback() {
         current = source
-        future = []
-        past = []
+        undoManager.removeAllActions()
     }
 }
 
@@ -67,21 +73,11 @@ extension Context {
 
 extension Context {
 
-    public var canUndo: Bool { !past.isEmpty }
-    public func undo() {
-        guard canUndo else { return }
-        let previous = past.removeLast()
-        future.append(current)
-        current = previous
-    }
+    public var canUndo: Bool { undoManager.canUndo }
+    public func undo() { undoManager.undo() }
 
-    public var canRedo: Bool { !future.isEmpty }
-    public func redo() {
-        guard canRedo else { return }
-        let next = future.removeLast()
-        past.append(current)
-        current = next
-    }
+    public var canRedo: Bool { undoManager.canRedo }
+    public func redo() { undoManager.redo() }
 }
 
 // MARK: - Child Context
