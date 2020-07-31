@@ -44,6 +44,15 @@ public struct Context<Value>: DynamicProperty {
                     current = newValue
                 })
     }
+}
+
+// MARK: - Managing Changes
+
+extension Context where Value: Equatable {
+    public var hasChanges: Bool { source != current }
+}
+
+extension Context {
 
     public func save() {
         source = current
@@ -54,6 +63,11 @@ public struct Context<Value>: DynamicProperty {
         future = []
         past = []
     }
+}
+
+// MARK: - Undo Support
+
+extension Context {
 
     public var canUndo: Bool { !past.isEmpty }
     public func undo() {
@@ -68,8 +82,4 @@ public struct Context<Value>: DynamicProperty {
         past.append(current)
         current = next
     }
-}
-
-extension Context where Value: Equatable {
-    public var hasChanges: Bool { source != current }
 }
