@@ -23,11 +23,7 @@ public struct Context<Value>: DynamicProperty {
 
     public var wrappedValue: Value {
         get { current }
-        nonmutating set {
-            past.append(current)
-            future = []
-            current = newValue
-        }
+        nonmutating set { setValue(newValue) }
     }
 
     public var projectedValue: Self { self }
@@ -36,13 +32,15 @@ public struct Context<Value>: DynamicProperty {
         binding[dynamicMember: keyPath]
     }
 
+    private func setValue(_ value: Value) {
+        past.append(current)
+        future = []
+        current = value
+    }
+
     private var binding: Binding<Value> {
         Binding(get: { current },
-                set: { newValue in
-                    past.append(current)
-                    future = []
-                    current = newValue
-                })
+                set: setValue)
     }
 }
 
