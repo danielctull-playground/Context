@@ -69,6 +69,7 @@ extension Context {
 
     public var canUndo: Bool { !past.isEmpty }
     public func undo() {
+        guard canUndo else { return }
         let previous = past.removeLast()
         future.append(current)
         current = previous
@@ -76,6 +77,7 @@ extension Context {
 
     public var canRedo: Bool { !future.isEmpty }
     public func redo() {
+        guard canRedo else { return }
         let next = future.removeLast()
         past.append(current)
         current = next
