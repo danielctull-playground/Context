@@ -83,3 +83,10 @@ extension Context {
         current = next
     }
 }
+
+// MARK: - Child Context
+
+extension Context {
+
+    public var child: Self { binding.context }
+}

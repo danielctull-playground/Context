@@ -26,6 +26,7 @@ struct ContentView: View {
 
 struct UserEditor: View {
     @Context var user: User
+    @State var showEdit = false
 
     var body: some View {
         VStack {
@@ -37,7 +38,11 @@ struct UserEditor: View {
                 Button("Save", action: $user.save).disabled(!$user.hasChanges)
                 Button("Rollback", action: $user.rollback).disabled(!$user.hasChanges)
             }
+            Button("New Editor") { showEdit = true }
         }
         .padding()
+        .sheet(isPresented: $showEdit) {
+            UserEditor(user: $user.child)
+        }
     }
 }
