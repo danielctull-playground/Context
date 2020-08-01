@@ -5,37 +5,31 @@ extension Binding {
     public var context: Context<Value> { Context(source: self) }
 }
 
-extension UndoManager {
-
-    @objc final class UndoFunction: NSObject {
-        let undoFunction: () -> Void
-        init(undoFunction: @escaping () -> Void) {
-            self.undoFunction = undoFunction
-        }
-    }
-
-    func registerUndo<Value>(_ binding: Binding<Value>, _ undo: @escaping (Binding<Value>) -> Void) {
-        let target = UndoFunction(undoFunction: { undo(binding) })
-        self.registerUndo(withTarget: target, handler: { $0.undoFunction() })
-    }
-}
-
 @propertyWrapper
 @dynamicMemberLookup
 public struct Context<Value>: DynamicProperty {
 
+    final class Box: ObservableObject {
+        init(value: Value) {
+            self.value = value
+        }
+        var value: Value {
+            willSet { objectWillChange.send() }
+        }
+    }
+
     @Binding private var source: Value
-    @State private var current: Value
+    @StateObject private var current: Box
     private let undoManager: UndoManager
 
     fileprivate init(source: Binding<Value>) {
         self._source = source
-        self._current = State(wrappedValue: source.wrappedValue)
+        self._current = StateObject(wrappedValue: Box(value: source.wrappedValue))
         self.undoManager = UndoManager()
     }
 
     public var wrappedValue: Value {
-        get { current }
+        get { current.value }
         nonmutating set { setValue(newValue) }
     }
 
@@ -46,13 +40,13 @@ public struct Context<Value>: DynamicProperty {
     }
 
     private func setValue(_ newValue: Value) {
-        let oldValue = current
-        current = newValue
-        undoManager.registerUndo($current) { $0.wrappedValue = oldValue }
+        let oldValue = current.value
+        current.value = newValue
+        undoManager.registerUndo(withTarget: current) { $0.value = oldValue }
     }
 
     private var binding: Binding<Value> {
-        Binding(get: { current },
+        Binding(get: { current.value },
                 set: setValue)
     }
 }
@@ -60,17 +54,17 @@ public struct Context<Value>: DynamicProperty {
 // MARK: - Managing Changes
 
 extension Context where Value: Equatable {
-    public var hasChanges: Bool { source != current }
+    public var hasChanges: Bool { source != current.value }
 }
 
 extension Context {
 
     public func save() {
-        source = current
+        source = current.value
     }
 
     public func rollback() {
-        current = source
+        current.value = source
         undoManager.removeAllActions()
     }
 }
