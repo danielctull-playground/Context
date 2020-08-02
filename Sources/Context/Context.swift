@@ -9,28 +9,33 @@ extension Binding {
 @dynamicMemberLookup
 public struct Context<Value>: DynamicProperty {
 
-    final class Box: ObservableObject {
-        init(value: Value) {
+    private final class Container: ObservableObject {
+
+        let undoManager: UndoManager
+
+        init(value: Value, undoManager: UndoManager) {
             self.value = value
+            self.undoManager = undoManager
         }
+
         var value: Value {
             willSet { objectWillChange.send() }
+            didSet { undoManager.registerUndo(withTarget: self) { $0.value = oldValue } }
         }
     }
 
     @Binding private var source: Value
-    @StateObject private var current: Box
-    private let undoManager: UndoManager
+    @StateObject private var container: Container
 
     fileprivate init(source: Binding<Value>) {
         self._source = source
-        self._current = StateObject(wrappedValue: Box(value: source.wrappedValue))
-        self.undoManager = UndoManager()
+        let container = Container(value: source.wrappedValue, undoManager: UndoManager())
+        self._container = StateObject(wrappedValue: container)
     }
 
     public var wrappedValue: Value {
-        get { current.value }
-        nonmutating set { setValue(newValue) }
+        get { container.value }
+        nonmutating set { container.value = newValue }
     }
 
     public var projectedValue: Self { self }
@@ -39,33 +44,27 @@ public struct Context<Value>: DynamicProperty {
         binding[dynamicMember: keyPath]
     }
 
-    private func setValue(_ newValue: Value) {
-        let oldValue = current.value
-        current.value = newValue
-        undoManager.registerUndo(withTarget: current) { $0.value = oldValue }
-    }
-
     private var binding: Binding<Value> {
-        Binding(get: { current.value },
-                set: setValue)
+        Binding(get: { container.value },
+                set: { container.value = $0 })
     }
 }
 
 // MARK: - Managing Changes
 
 extension Context where Value: Equatable {
-    public var hasChanges: Bool { source != current.value }
+    public var hasChanges: Bool { source != container.value }
 }
 
 extension Context {
 
     public func save() {
-        source = current.value
+        source = container.value
     }
 
     public func rollback() {
-        current.value = source
-        undoManager.removeAllActions()
+        container.value = source
+        container.undoManager.removeAllActions()
     }
 }
 
@@ -73,11 +72,11 @@ extension Context {
 
 extension Context {
 
-    public var canUndo: Bool { undoManager.canUndo }
-    public func undo() { undoManager.undo() }
+    public var canUndo: Bool { container.undoManager.canUndo }
+    public func undo() { container.undoManager.undo() }
 
-    public var canRedo: Bool { undoManager.canRedo }
-    public func redo() { undoManager.redo() }
+    public var canRedo: Bool { container.undoManager.canRedo }
+    public func redo() { container.undoManager.redo() }
 }
 
 // MARK: - Child Context
