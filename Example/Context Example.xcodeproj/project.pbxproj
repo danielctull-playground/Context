@@ -14,7 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24DA56AD24D4128C00BD94D6 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		24DA56AD24D4128C00BD94D6 /* Context Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Context Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		24DA56B024D4128C00BD94D6 /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		24DA56B224D4128C00BD94D6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		24DA56B424D4128F00BD94D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				24DA56BF24D412E700BD94D6 /* MyLibrary */,
-				24DA56AF24D4128C00BD94D6 /* Example */,
+				24DA56AF24D4128C00BD94D6 /* Context Example */,
 				24DA56AE24D4128C00BD94D6 /* Products */,
 				24DA56C024D412FA00BD94D6 /* Frameworks */,
 			);
@@ -47,12 +47,12 @@
 		24DA56AE24D4128C00BD94D6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				24DA56AD24D4128C00BD94D6 /* Example.app */,
+				24DA56AD24D4128C00BD94D6 /* Context Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		24DA56AF24D4128C00BD94D6 /* Example */ = {
+		24DA56AF24D4128C00BD94D6 /* Context Example */ = {
 			isa = PBXGroup;
 			children = (
 				24DA56B024D4128C00BD94D6 /* ExampleApp.swift */,
@@ -60,7 +60,7 @@
 				24DA56B424D4128F00BD94D6 /* Assets.xcassets */,
 				24DA56B924D4128F00BD94D6 /* Info.plist */,
 			);
-			path = Example;
+			path = "Context Example";
 			sourceTree = "<group>";
 		};
 		24DA56C024D412FA00BD94D6 /* Frameworks */ = {
@@ -73,9 +73,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		24DA56AC24D4128C00BD94D6 /* Example */ = {
+		24DA56AC24D4128C00BD94D6 /* Context Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 24DA56BC24D4128F00BD94D6 /* Build configuration list for PBXNativeTarget "Example" */;
+			buildConfigurationList = 24DA56BC24D4128F00BD94D6 /* Build configuration list for PBXNativeTarget "Context Example" */;
 			buildPhases = (
 				24DA56A924D4128C00BD94D6 /* Sources */,
 				24DA56AA24D4128C00BD94D6 /* Frameworks */,
@@ -85,12 +85,12 @@
 			);
 			dependencies = (
 			);
-			name = Example;
+			name = "Context Example";
 			packageProductDependencies = (
 				24DA56C724D4187800BD94D6 /* Context */,
 			);
 			productName = Example;
-			productReference = 24DA56AD24D4128C00BD94D6 /* Example.app */;
+			productReference = 24DA56AD24D4128C00BD94D6 /* Context Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,7 +107,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 24DA56A824D4128C00BD94D6 /* Build configuration list for PBXProject "Example" */;
+			buildConfigurationList = 24DA56A824D4128C00BD94D6 /* Build configuration list for PBXProject "Context Example" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -120,7 +120,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				24DA56AC24D4128C00BD94D6 /* Example */,
+				24DA56AC24D4128C00BD94D6 /* Context Example */,
 			);
 		};
 /* End PBXProject section */
@@ -273,13 +273,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B2M757K4LG;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = "Context Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.danieltull.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.danieltull.ContextExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -294,13 +294,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = B2M757K4LG;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_FILE = "Context Example/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.danieltull.Example;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.danieltull.ContextExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -310,7 +310,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		24DA56A824D4128C00BD94D6 /* Build configuration list for PBXProject "Example" */ = {
+		24DA56A824D4128C00BD94D6 /* Build configuration list for PBXProject "Context Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24DA56BA24D4128F00BD94D6 /* Debug */,
@@ -319,7 +319,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		24DA56BC24D4128F00BD94D6 /* Build configuration list for PBXNativeTarget "Example" */ = {
+		24DA56BC24D4128F00BD94D6 /* Build configuration list for PBXNativeTarget "Context Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				24DA56BD24D4128F00BD94D6 /* Debug */,
