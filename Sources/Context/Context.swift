@@ -46,6 +46,10 @@ extension Context {
         source = value
     }
 
+    public func reset() {
+        value = source
+    }
+
     public func rollback() {
         value = source
         $value.removeAllActions()

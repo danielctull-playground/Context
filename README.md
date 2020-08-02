@@ -47,6 +47,7 @@ struct UserEditor: View {
                 $user.undoButton
                 $user.redoButton
                 Button("Save", action: $user.save).disabled(!$user.hasChanges)
+                Button("Reset", action: $user.reset).disabled(!$user.hasChanges)
                 Button("Rollback", action: $user.rollback).disabled(!$user.hasChanges)
             }
             Button("New Editor") { showEdit = true }
