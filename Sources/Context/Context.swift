@@ -14,7 +14,7 @@ public struct Context<Value>: DynamicProperty {
 
     fileprivate init(source: Binding<Value>) {
         self._source = source
-        self._value = UndoManaged(value: source.wrappedValue, undoManager: UndoManager())
+        self._value = UndoManaged(wrappedValue: source.wrappedValue)
     }
 
     public var projectedValue: Context<Value> { self }

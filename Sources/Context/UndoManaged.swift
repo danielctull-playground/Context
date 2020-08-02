@@ -7,8 +7,8 @@ struct UndoManaged<Value>: DynamicProperty {
 
     @StateObject private var container: Container<Value>
 
-    init(value: Value, undoManager: UndoManager) {
-        let container = Container(value: value, undoManager: undoManager)
+    init(wrappedValue value: Value) {
+        let container = Container(value: value, undoManager: UndoManager())
         self._container = StateObject(wrappedValue: container)
     }
 
