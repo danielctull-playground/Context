@@ -5,6 +5,7 @@ extension Binding {
     public var context: Context<Value> { Context(source: self) }
 }
 
+/// A property wrapper to track changes to a value.
 @propertyWrapper
 @dynamicMemberLookup
 public struct Context<Value>: DynamicProperty {
@@ -42,14 +43,24 @@ extension Context where Value: Equatable {
 
 extension Context {
 
+    /// Saves the changes to the source provided in the initializer.
     public func save() {
         source = value
     }
 
+    /// Discards all changes made and reverts back to the value for the source.
+    ///
+    /// This function leaves the undo stack in place. If you wish to reset the
+    /// undo stack as well, use `rollback()`.
     public func reset() {
         value = source
     }
 
+    /// Discards all changes made and reverts back to the value for the source.
+    ///
+    /// This restores the value to its last saved state and removes everything
+    /// from the undo stack. Use `reset()` if you do not wish to lose the
+    /// contents of the undo stack.
     public func rollback() {
         value = source
         $value.removeAllActions()
