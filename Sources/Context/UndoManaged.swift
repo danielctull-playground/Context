@@ -8,7 +8,7 @@ struct UndoManaged<Value>: DynamicProperty {
 
     init(wrappedValue value: Value) {
         let container = Container(value: value, undoManager: UndoManager())
-        self._container = StateObject(wrappedValue: container)
+        _container = StateObject(wrappedValue: container)
     }
 
     var projectedValue: UndoManager { container.undoManager }
