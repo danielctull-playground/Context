@@ -19,7 +19,7 @@ struct ContentView: View {
             Button("Edit") { showEdit = true }
         }
         .sheet(isPresented: $showEdit) {
-            UserEditor(user: $user.context)
+            UserEditor(user: Context($user))
         }
     }
 }

@@ -1,10 +1,6 @@
 
 import SwiftUI
 
-extension Binding {
-    public var context: Context<Value> { Context(source: self) }
-}
-
 /// A property wrapper to track changes to a value.
 @propertyWrapper
 @dynamicMemberLookup
@@ -13,7 +9,7 @@ public struct Context<Value>: DynamicProperty {
     @Binding private var source: Value
     @UndoManaged private var value: Value
 
-    fileprivate init(source: Binding<Value>) {
+    public init(_ source: Binding<Value>) {
         _source = source
         _value = UndoManaged(wrappedValue: source.wrappedValue)
     }
@@ -84,5 +80,5 @@ extension Context {
 
 extension Context {
 
-    public var child: Self { binding.context }
+    public var child: Self { Context(binding) }
 }
