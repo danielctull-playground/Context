@@ -33,8 +33,12 @@ struct UserEditor: View {
             TextField("First Name", text: $user.firstName)
             TextField("Last Name", text: $user.lastName)
             HStack {
-                $user.undoButton
-                $user.redoButton
+
+                Button(systemImage: "arrow.uturn.left", action: $user.undo)
+                    .disabled(!$user.canUndo)
+
+                Button(systemImage: "arrow.uturn.right", action: $user.redo)
+                    .disabled(!$user.canRedo)
 
                 Group {
                     Button("Save", action: $user.save)
