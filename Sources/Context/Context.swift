@@ -63,7 +63,7 @@ extension Context {
     /// contents of the undo stack.
     public func rollback() {
         value = source
-        $value.removeAllActions()
+        undoManager.removeAllActions()
     }
 }
 
@@ -71,11 +71,13 @@ extension Context {
 
 extension Context {
 
-    public var canUndo: Bool { $value.canUndo }
-    public func undo() { $value.undo() }
+    fileprivate var undoManager: UndoManager { $value }
 
-    public var canRedo: Bool { $value.canRedo }
-    public func redo() { $value.redo() }
+    public var canUndo: Bool { undoManager.canUndo }
+    public func undo() { undoManager.undo() }
+
+    public var canRedo: Bool { undoManager.canRedo }
+    public func redo() { undoManager.redo() }
 }
 
 // MARK: - Child Context
@@ -83,11 +85,4 @@ extension Context {
 extension Context {
 
     public var child: Self { binding.context }
-}
-
-// MARK: - Undo Buttons
-
-extension Context {
-    public var undoButton: some View { $value.undoButton }
-    public var redoButton: some View { $value.redoButton }
 }
