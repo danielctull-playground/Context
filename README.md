@@ -30,7 +30,7 @@ struct ContentView: View {
             Button("Edit") { showEdit = true }
         }
         .sheet(isPresented: $showEdit) {
-            UserEditor(user: $user.context)
+            UserEditor(user: Context($user))
         }
     }
 }
@@ -44,17 +44,34 @@ struct UserEditor: View {
             TextField("First Name", text: $user.firstName)
             TextField("Last Name", text: $user.lastName)
             HStack {
-                $user.undoButton
-                $user.redoButton
-                Button("Save", action: $user.save).disabled(!$user.hasChanges)
-                Button("Reset", action: $user.reset).disabled(!$user.hasChanges)
-                Button("Rollback", action: $user.rollback).disabled(!$user.hasChanges)
+
+                Button(systemImage: "arrow.uturn.left", action: $user.undo)
+                    .disabled(!$user.canUndo)
+
+                Button(systemImage: "arrow.uturn.right", action: $user.redo)
+                    .disabled(!$user.canRedo)
+
+                Group {
+                    Button("Save", action: $user.save)
+                    Button("Reset", action: $user.reset)
+                    Button("Rollback", action: $user.rollback)
+                }
+                .disabled(!$user.hasChanges)
             }
             Button("New Editor") { showEdit = true }
         }
         .padding()
         .sheet(isPresented: $showEdit) {
             UserEditor(user: $user.child)
+        }
+    }
+}
+
+extension Button where Label == Image {
+
+    init(systemImage name: String, action: @escaping () -> Void) {
+        self.init(action: action) {
+            Image(systemName: name)
         }
     }
 }
