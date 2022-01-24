@@ -12,7 +12,7 @@ It produces a view that shows an editor to edit the first and last name fields.
 
 Each editor can also provide a child editor that has it's own undo stack. When that editor saves, the change is represented as a single undo step in the parent editor.
 
-```
+``` swift
 struct User: Equatable {
     var firstName: String
     var lastName: String
